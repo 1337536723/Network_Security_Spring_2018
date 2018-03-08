@@ -12,7 +12,7 @@ def alarm(time):
         exit()
     signal.signal(signal.SIGALRM, handler)
     signal.alarm(time)
-    
+
 # Get public key
 def getpubkey():
     with open('./pub.pem','rb') as f:
@@ -27,13 +27,17 @@ def check(cipher_text,pubkey):
 
         # Use binascii.hexlify to transfer byte string into integer
         # then use RSA to encrypt it
-        flag_enc = pubkey.encrypt(int(binascii.hexlify(flag),16),'')[0]
-
+        flag_enc = pubkey.encrypt(long(binascii.hexlify(flag),16),'')[0]
+        print ("flag_enc", flag_enc)
         d = SHA256.new()
         dd = SHA256.new()
-
+        print("d: ",d)
+        print("dd: ",dd)
         # use binascii.unhexlify to transfer integer into byte string
         d.update(binascii.unhexlify(hex(flag_enc)[2:-1]))
+
+        print("dnew: ",d)
+
         try :
             dd.update(base64.b64decode(cipher_text))
         except TypeError:
