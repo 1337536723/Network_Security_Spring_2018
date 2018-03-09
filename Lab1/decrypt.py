@@ -76,7 +76,9 @@ def chosen_ciphertext_attack(rsa_n, rsa_e, ciphertext):
     print("Public key n part",rsa_n)
     print("Public key e part",rsa_e)
     chosen_ciphertext = (2 ** (long(rsa_e))) * long(ciphertext) % (rsa_n)
-    print("chosen_ciphertext is ",chosen_ciphertext)
+    print("chosen_ciphertext in L is ",chosen_ciphertext) #now we have Y, Let's send to server for Z = decrypted Y
+    chosen_ciphertext = base64.b64encode(str(chosen_ciphertext))#encode into base 64 again, argument should be string
+    print("chosen_ciphertext in base64 is ",chosen_ciphertext) #now we have Y, Let's send to server for Z = decrypted Y
     return chosen_ciphertext
 
 
