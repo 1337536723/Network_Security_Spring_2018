@@ -134,7 +134,6 @@ if __name__ == '__main__' :
 
     cipher_text = raw_input('Give me your encrypted message in base64 encoding format  ').strip()
     chosen_ciphertext_attack(key.n, key.e, cipher_text, key)
-    # base64_test()
     crack_the_plaintext(key.n)
     if check(cipher_text,key) :
         decrypt(cipher_text)
