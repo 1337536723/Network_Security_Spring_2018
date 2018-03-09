@@ -42,7 +42,7 @@ def check(cipher_text,pubkey):
         try :
             dd.update(base64.b64decode(cipher_text))
         except TypeError:
-            print 'base64 decode error!'
+            print 'base64 decode error! '
             sys.exit()
 
         if d.hexdigest() == dd.hexdigest():
@@ -57,7 +57,7 @@ def decrypt(cipher_text):
         try :
             text = key.decrypt(base64.b64decode(cipher_text))
         except TypeError:
-            print 'base64 decode error!'
+            print 'base64 decode error! '
             sys.exit()
 
         print 'Decrypted message in base64 encoding format: '
@@ -90,8 +90,8 @@ def chosen_ciphertext_attack(rsa_n, rsa_e, ciphertext, pubkey):
     ciphertext = long(ciphertext, 16) #convert hex to long (large long) with 16 option which is hex
     forged_number = 2 #choose X where X is relatively prime to n
     print("ciphertext is ",ciphertext)
-    print("Public key n part",rsa_n)
-    print("Public key e part",rsa_e)
+    print("Public key n part ",rsa_n)
+    print("Public key e part ",rsa_e)
     chosen_ciphertext = ( long(ciphertext) * (forged_number ** (long(rsa_e))) ) % (rsa_n) #create Y = C*X^e mod n
     print("chosen_ciphertext in L is ",chosen_ciphertext) #now we have Y, Let's send to server for Z = decrypted Y
     chosen_ciphertext = hex(chosen_ciphertext)
@@ -110,14 +110,32 @@ def base64_test():
     base64_test_str = long(base64_test_str,16) #convert hex to long (large long) with 16 option which is hex
     print("The decoded information is ",base64_test_str)
 
+def crack_the_plaintext(rsa_n):
+    online_decrypted_text_Z = raw_input("Enter the decrypted text from TA's server  ")
+    online_decrypted_text_Z = base64.b64decode(online_decrypted_text_Z) #decode the base64-encoded ciphertext using the base64.b64decode library
+    print("ciphertext after b64decode is ",online_decrypted_text_Z)
+    online_decrypted_text_Z = binascii.hexlify(online_decrypted_text_Z) #convert the base64 encoded value to hex
+    online_decrypted_text_Z = long(online_decrypted_text_Z, 16) #convert hex to long (large long) with 16 option which is hex
+    print("online_decrypted_text_Z in L is ",online_decrypted_text_Z)
+    X_modular_inv = (rsa_n + 1) / 2
+    plain_text = long(online_decrypted_text_Z) * long(X_modular_inv) % rsa_n
+    print("Plain text is now ",plain_text)
+    plain_text = hex(plain_text)
+    plain_text = plain_text[2:-1] #get 0x[SUBSTR]L get substr we want
+    final_plain_text = plain_text.decode("hex")
+    print("The final plain text is ",final_plain_text)
+
+
+
 if __name__ == '__main__' :
     alarm(60)
     sys.stdout=os.fdopen(sys.stdout.fileno(),"wb",0)
     key = getpubkey()
 
-    cipher_text = raw_input('Give me your encrypted message in base64 encoding format : ').strip()
+    cipher_text = raw_input('Give me your encrypted message in base64 encoding format  ').strip()
     chosen_ciphertext_attack(key.n, key.e, cipher_text, key)
-    base64_test()
+    # base64_test()
+    crack_the_plaintext(key.n)
     if check(cipher_text,key) :
         decrypt(cipher_text)
     else :
