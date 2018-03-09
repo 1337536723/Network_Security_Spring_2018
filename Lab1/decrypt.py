@@ -18,6 +18,7 @@ def getpubkey():
     with open('./pub.pem','rb') as f:
         pub = f.read()
         key = RSA.importKey(pub)
+
     return key
 
 # Check if u send me the flag !
@@ -27,16 +28,16 @@ def check(cipher_text,pubkey):
 
         # Use binascii.hexlify to transfer byte string into integer
         # then use RSA to encrypt it
-        flag_enc = pubkey.encrypt(long(binascii.hexlify(flag),16),'')[0]
-        print ("flag_enc", flag_enc)
+        # usage ref https://www.dlitz.net/software/pycrypto/api/current/Crypto.PublicKey.RSA._RSAobj-class.html#encrypt
+        flag_enc = pubkey.encrypt(int(binascii.hexlify(flag),16),'')[0]
+
+
         d = SHA256.new()
         dd = SHA256.new()
-        print("d: ",d)
-        print("dd: ",dd)
+
         # use binascii.unhexlify to transfer integer into byte string
         d.update(binascii.unhexlify(hex(flag_enc)[2:-1]))
 
-        print("dnew: ",d)
 
         try :
             dd.update(base64.b64decode(cipher_text))
@@ -62,6 +63,20 @@ def decrypt(cipher_text):
         print 'Decrypted message in base64 encoding format: '
         print base64.b64encode(text)
 
+def chosen_ciphertext_attack(rsa_n, rsa_e, ciphertext):
+    """
+    method 1: use rsa_n - 1 vs rsa_n which they are co_prime
+    method 2: use 2 vs rsa_n since rsa_n is a big prime number, s.t. it must be an odd number so choose 2 to be X
+    will probably fit the case
+    """
+    ciphertext = base64.b64decode(ciphertext)
+    print("ciphertext is ",ciphertext)
+    print("Public key n part",rsa_n)
+    print("Public key e part",rsa_e)
+    chosen_ciphertext = ((2 ** rsa_e) * (ciphertext)) % (rsa_n)
+    print("chosen_ciphertext is ",chosen_ciphertext)
+    return chosen_ciphertext
+
 
 if __name__ == '__main__' :
     alarm(60)
@@ -69,6 +84,8 @@ if __name__ == '__main__' :
     key = getpubkey()
 
     cipher_text = raw_input('Give me your encrypted message in base64 encoding format : ').strip()
+
+    chosen_ciphertext_attack(key.n, key.e, cipher_text)
 
     if check(cipher_text,key) :
         decrypt(cipher_text)
