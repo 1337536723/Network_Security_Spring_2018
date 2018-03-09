@@ -70,10 +70,12 @@ def chosen_ciphertext_attack(rsa_n, rsa_e, ciphertext):
     will probably fit the case
     """
     ciphertext = base64.b64decode(ciphertext)
+    ciphertext = binascii.hexlify(ciphertext) #convert the base64 encoded value to hex
+    ciphertext = long(ciphertext,16) #convert hex to long (large long) with 16 option which is hex
     print("ciphertext is ",ciphertext)
     print("Public key n part",rsa_n)
     print("Public key e part",rsa_e)
-    chosen_ciphertext = ((2 ** rsa_e) * (ciphertext)) % (rsa_n)
+    chosen_ciphertext = (2 ** (long(rsa_e))) * long(ciphertext) % (rsa_n)
     print("chosen_ciphertext is ",chosen_ciphertext)
     return chosen_ciphertext
 
