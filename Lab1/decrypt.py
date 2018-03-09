@@ -95,6 +95,7 @@ def chosen_ciphertext_attack(rsa_n, rsa_e, ciphertext, pubkey):
     chosen_ciphertext = ( long(ciphertext) * (forged_number ** (long(rsa_e))) ) % (rsa_n) #create Y = C*X^e mod n
     print("chosen_ciphertext in L is ",chosen_ciphertext) #now we have Y, Let's send to server for Z = decrypted Y
     chosen_ciphertext = hex(chosen_ciphertext)
+    chosen_ciphertext = chosen_ciphertext[2:-1] #get 0x[SUBSTR]L get substr we want
     print("chosen_ciphertext in HEX is ",chosen_ciphertext) #now we have Y, Let's send to server for Z = decrypted Y
     chosen_ciphertext = binascii.unhexlify(str(chosen_ciphertext))
     print("chosen_ciphertext in UNHEX is ",chosen_ciphertext) #now we have Y, Let's send to server for Z = decrypted Y
