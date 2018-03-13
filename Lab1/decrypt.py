@@ -125,8 +125,6 @@ def crack_the_plaintext(rsa_n):
     final_plain_text = plain_text.decode("hex")
     print("The final plain text is ",final_plain_text)
 
-
-
 if __name__ == '__main__' :
     alarm(60)
     sys.stdout=os.fdopen(sys.stdout.fileno(),"wb",0)
