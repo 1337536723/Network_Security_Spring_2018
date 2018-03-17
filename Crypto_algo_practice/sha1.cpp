@@ -27,11 +27,12 @@ string preprocessing(string input_str)//add 0 in the end of data
     }
     cout<<"After padding to 448 mod 512 input_str become: "<<input_str<<" with its length in bits "<<(input_str.size()<<8)<<endl;
     //append length of message (before pre-processing), in bits, as 64-bit big-endian integer
-    unsigned append_value = original_length & 0xFFFFFFFFFFFFFFFF;
-    while( append_value )
+    unsigned long long append_value = original_length & 0xFFFFFFFFFFFFFFFF;
+    cout<<"Append value "<<std::hex<<append_value<<endl;
+    for(int i = 0 ; i < 4 ; i++)
     {
-        input_str += (char) ( append_value & 0xFF );
-        append_value >>= 8; //bitwise processing
+        input_str += (append_value & 0xFF000000000000) >> 48;
+        append_value <<= 8;
     }
     cout<<"After padding to 0 mod 512 input_str become: "<<input_str<<" with its length in bits "<<(input_str.size()<<8)<<endl;
     return input_str;
