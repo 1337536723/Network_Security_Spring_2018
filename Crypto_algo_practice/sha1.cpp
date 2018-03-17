@@ -25,7 +25,7 @@ string preprocessing(string input_str)//add 0 in the end of data
     {
         input_str += (char) 0;
     }
-
+    cout<<"After padding to 448 mod 512 input_str become: "<<input_str<<" with its length in bits "<<(input_str.size()<<8)<<endl;
     //append length of message (before pre-processing), in bits, as 64-bit big-endian integer
     unsigned append_value = original_length & 0xFFFFFFFFFFFFFFFF;
     while( append_value )
@@ -33,6 +33,7 @@ string preprocessing(string input_str)//add 0 in the end of data
         input_str += (char) ( append_value & 0xFF );
         append_value >>= 8; //bitwise processing
     }
+    cout<<"After padding to 0 mod 512 input_str become: "<<input_str<<" with its length in bits "<<(input_str.size()<<8)<<endl;
     return input_str;
 }
 unsigned left_rotate(unsigned orginal_value, int bits, int all_length)
@@ -45,10 +46,10 @@ vector<unsigned> one_block_processing(string input_str_blocksubstr)  //one_block
     for(int i = 0 ; i < 16 ; i++)//each word is 32 bits and there are 16 words in a given block to per processed
     {
         // buffer_str[i] = ((unsigned int)input_str_blocksubstr.substr( i * 4, 4) & 0xFFFFFFFF ); casting problem
-        buffer_str[i]=((unsigned)input_str_blocksubstr[i * 4] & 0xff)<<24 |
-                 ((unsigned)input_str_blocksubstr[i * 4 + 1] & 0xff)<<16 |
-                 ((unsigned)input_str_blocksubstr[i * 4 + 2] & 0xff)<<8 |
-                 ((unsigned)input_str_blocksubstr[i * 4 + 3] & 0xff); //bit wise concatenation
+        buffer_str[i]=((unsigned)input_str_blocksubstr[i * 4] & 0xFF)<<24 |
+                 ((unsigned)input_str_blocksubstr[i * 4 + 1] & 0xFF)<<16 |
+                 ((unsigned)input_str_blocksubstr[i * 4 + 2] & 0xFF)<<8 |
+                 ((unsigned)input_str_blocksubstr[i * 4 + 3] & 0xFF); //bit wise concatenation
     }
     vector<unsigned> final_buffer(80,0);
     for(int i = 16 ; i < 80 ; i++)
@@ -84,7 +85,7 @@ UNT nonlinear_transform(UNT A, UNT B, UNT C, UNT D, UNT E, UNT cur_round) //non 
 string sha1_main(string input_str)
 {
     input_str = preprocessing(input_str);
-
+    cout<<"Size after preprocessing"<<(input_str.size()<<8)<<endl;
     unsigned A = 0x67452301;
     unsigned B = 0xEFCDAB89;
     unsigned C = 0x98BADCFE;
