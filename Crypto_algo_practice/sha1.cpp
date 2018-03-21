@@ -127,8 +127,9 @@ void sha1_main(string input_str)
 int main()
 {
     string input_str;
-    cin>>input_str;
-    sha1_main(input_str);
-    cout<<"program end";
+    while(cin>>input_str)
+    {
+        sha1_main(input_str);
+    }
     return 0;
 }
