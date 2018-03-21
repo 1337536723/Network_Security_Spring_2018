@@ -23,18 +23,20 @@ string preprocessing(string input_str)//add 0 in the end of data
     input_str += (char) 0x80; //0b10000000
     while(input_str.size() << 3 % 512 != 448) //1 char is 8 bits, we process bitwise rather than bytewise
     {
+        cout<<"crash "<<endl;
         input_str += (char) 0;
     }
-    cout<<"After padding to 448 mod 512 input_str become: "<<input_str<<" with its length in bits "<<(input_str.size()<<8)<<endl;
+    cout<<"After padding to 448 mod 512 input_str become: "<<input_str<<" with its length in bits "<<std::dec<<(input_str.size()<<3)<<endl;
     //append length of message (before pre-processing), in bits, as 64-bit big-endian integer
     unsigned long long append_value = original_length & 0xFFFFFFFFFFFFFFFF;
+    unsigned tmp_add = 0;
     cout<<"Append value "<<std::hex<<append_value<<endl;
-    for(int i = 0 ; i < 4 ; i++)
+    for(int i = 0 ; i < 8 ; i++)
     {
-        input_str += (append_value & 0xFF000000000000) >> 48;
+        input_str += (char)((append_value & 0xFF000000000000) >> 48);
         append_value <<= 8;
     }
-    cout<<"After padding to 0 mod 512 input_str become: "<<input_str<<" with its length in bits "<<(input_str.size()<<8)<<endl;
+    cout<<"After padding to 0 mod 512 input_str become: "<<input_str<<" with its length in bits "<<std::dec<<(input_str.size()<<3)<<endl;
     return input_str;
 }
 unsigned left_rotate(unsigned orginal_value, int bits, int all_length)
@@ -56,8 +58,8 @@ vector<unsigned> one_block_processing(string input_str_blocksubstr)  //one_block
     for(int i = 16 ; i < 80 ; i++)
     {
         final_buffer[i] = buffer_str[i - 3] ^ buffer_str[i - 8] ^ buffer_str[i - 14] ^ buffer_str[i - 16];
-        final_buffer[i] = left_rotate((unsigned)final_buffer[i], i, 32); //circular shifiting code !!
     }
+    cout<<"final buffer ok "<<endl;
     return final_buffer;
 }
 
@@ -76,7 +78,7 @@ UNT nonlinear_transform(UNT A, UNT B, UNT C, UNT D, UNT E, UNT cur_round) //non 
         return (B & C) | (B & D) | (C & D);
     }
     else if( cur_round >= 60 && cur_round < 80)
-    {
+     {
         return B ^ C ^ D;
     }
     return (B & C) | (B & D) | (C & D); //for compile OK
@@ -86,7 +88,8 @@ UNT nonlinear_transform(UNT A, UNT B, UNT C, UNT D, UNT E, UNT cur_round) //non 
 string sha1_main(string input_str)
 {
     input_str = preprocessing(input_str);
-    cout<<"Size after preprocessing"<<(input_str.size()<<8)<<endl;
+    cout<<"Size after preprocessing in bits"<<std::dec<<(input_str.size()<<3)<<endl;
+    cout<<"Size after preprocessing in bytes"<<std::dec<<input_str.size()<<endl;
     unsigned A = 0x67452301;
     unsigned B = 0xEFCDAB89;
     unsigned C = 0x98BADCFE;
@@ -99,12 +102,13 @@ string sha1_main(string input_str)
     for(int processed_byte = 0 ; processed_byte != input_str.size() ; processed_byte += 64)
     //process 512 per block operation, 512 = 64bytes = 64chars
     {
-        one_block_str = one_block_processing(input_str.substr(processed_byte , 64)); //feed a length of 64 bytes (or say 512 bits) long string
+        one_block_str = one_block_processing(input_str.substr(processed_byte, 64)); //feed a length of 64 bytes (or say 512 bits) long string
+        cout<<"Processed byte : "<<processed_byte<<endl;
         for(int i = 0 ; i < 80 ; i++)
         {
             K = add_vector[i / 20];
             F = nonlinear_transform(A, B, C, D, E, i);
-            temp = left_rotate(A, 5 ,32) + F + E + K + ( ((unsigned)one_block_str[i]) & 0xFFFFFFFF);
+            temp = left_rotate(A, 5 ,32) + F + E + K + ( ((unsigned)one_block_str[i]));
             E = D;
             D = C;
             C = left_rotate(B, 30 ,32);
@@ -117,6 +121,7 @@ string sha1_main(string input_str)
         H2 += C;
         H3 += D;
         H4 += E;
+        cout<<"Complete one round "<<endl;
     }
     cout<<"SHA 1: "<<std::hex<<H0<<H1<<H2<<H3<<H4<<endl;
 }
@@ -126,6 +131,7 @@ int main(int argc, char const *argv[])
     while( cin >> input_str )
     {
         sha1_main(input_str);
+        cout<<"Sha1ends "<<endl;
     }
     return 0;
 }
