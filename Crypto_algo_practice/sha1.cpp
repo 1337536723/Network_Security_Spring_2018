@@ -85,7 +85,7 @@ UNT nonlinear_transform(UNT A, UNT B, UNT C, UNT D, UNT E, UNT cur_round) //non 
 }
 
 
-string sha1_main(string input_str)
+void sha1_main(string input_str)
 {
     input_str = preprocessing(input_str);
     cout<<"Size after preprocessing in bits"<<std::dec<<(input_str.size()<<3)<<endl;
@@ -127,9 +127,8 @@ string sha1_main(string input_str)
 int main()
 {
     string input_str;
-    while( cin >> input_str )
-    {
-        sha1_main(input_str);
-    }
+    cin>>input_str;
+    sha1_main(input_str);
+    cout<<"program end";
     return 0;
 }
