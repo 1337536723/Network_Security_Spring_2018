@@ -23,10 +23,9 @@ string preprocessing(string input_str)//add 0 in the end of data
     input_str += (char) 0x80; //0b10000000
     while( (input_str.size() << 3) % 512 != 448) //1 char is 8 bits, we process bitwise rather than bytewise
     {
-        cout<<"crash "<<endl;
         input_str += (char) 0;
     }
-    cout<<"After padding to 448 mod 512 input_str become: "<<input_str<<" with its length in bits "<<std::dec<<(input_str.size()<<3)<<endl;
+    cout<<"After padding to 448 mod 512 input_str its length in bits "<<std::dec<<(input_str.size()<<3)<<" and in char "<<input_str.size()<<endl;
     //append length of message (before pre-processing), in bits, as 64-bit big-endian integer
     unsigned long long append_value = original_length & 0xFFFFFFFFFFFFFFFF;
     unsigned tmp_add = 0;
@@ -36,7 +35,7 @@ string preprocessing(string input_str)//add 0 in the end of data
         input_str += (char)((append_value & 0xFF000000000000) >> 48);
         append_value <<= 8;
     }
-    cout<<"After padding to 0 mod 512 input_str become: "<<input_str<<" with its length in bits "<<std::dec<<(input_str.size()<<3)<<endl;
+    cout<<"After padding to 0 mod 512 input_str its length in bits "<<std::dec<<(input_str.size()<<3)<<" and in char "<<input_str.size()<<endl;
     return input_str;
 }
 unsigned left_rotate(unsigned orginal_value, int bits, int all_length)
@@ -53,13 +52,12 @@ vector<unsigned> one_block_processing(string input_str_blocksubstr)  //one_block
                  ((unsigned)input_str_blocksubstr[i * 4 + 1] & 0xFF)<<16 |
                  ((unsigned)input_str_blocksubstr[i * 4 + 2] & 0xFF)<<8 |
                  ((unsigned)input_str_blocksubstr[i * 4 + 3] & 0xFF); //bit wise concatenation
-        cout<<"Buffer i "<<i <<" value "<<std::hex<<buffer_str[i]<<endl;
+        // cout<<"Buffer i "<<i <<" value "<<std::hex<<buffer_str[i]<<endl;
     }
     for(int i = 16 ; i < 80 ; i++)
     {
         buffer_str[i] = buffer_str[i - 3] ^ buffer_str[i - 8] ^ buffer_str[i - 14] ^ buffer_str[i - 16];
     }
-    cout<<"final buffer ok "<<endl;
     return buffer_str;
 }
 
@@ -97,13 +95,11 @@ void sha1_main(string input_str)
     unsigned E = 0xC3D2E1F0;
     unsigned F = 0, K = 0, temp = 0;
     unsigned H0 = 0, H1 = 0, H2 = 0, H3 = 0, H4 = 0;
-    cout<<input_str<<endl;
     for(int processed_byte = 0 ; processed_byte != input_str.size() ; processed_byte += 64)
     //process 512 per block operation, 512 = 64bytes = 64chars
     {
         vector<unsigned> one_block_str;
         one_block_str = one_block_processing(input_str.substr(processed_byte, 64)); //feed a length of 64 bytes (or say 512 bits) long string
-        cout<<"Processed byte : "<<processed_byte<<endl;
         for(int i = 0 ; i < 80 ; i++)
         {
             K = add_vector[i / 20];
@@ -120,7 +116,6 @@ void sha1_main(string input_str)
         H2 += C;
         H3 += D;
         H4 += E;
-        cout<<"Complete one round "<<endl;
     }
     cout<<"SHA 1: "<<std::hex<<H0<<H1<<H2<<H3<<H4<<endl;
 }
