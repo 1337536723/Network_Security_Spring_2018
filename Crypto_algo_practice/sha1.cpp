@@ -53,6 +53,7 @@ vector<unsigned> one_block_processing(string input_str_blocksubstr)  //one_block
                  ((unsigned)input_str_blocksubstr[i * 4 + 1] & 0xFF)<<16 |
                  ((unsigned)input_str_blocksubstr[i * 4 + 2] & 0xFF)<<8 |
                  ((unsigned)input_str_blocksubstr[i * 4 + 3] & 0xFF); //bit wise concatenation
+        cout<<"Buffer i "<<i <<" value "<<std::hex<<buffer_str[i]<<endl;
     }
     vector<unsigned> final_buffer(80,0);
     for(int i = 16 ; i < 80 ; i++)
