@@ -21,7 +21,7 @@ string preprocessing(string input_str)//add 0 in the end of data
     unsigned original_length = input_str.size() << 3; //append the length of message later in preprocessing, that is why SHA1 Only accept of
     //message of max 2^64 bits
     input_str += (char) 0x80; //0b10000000
-    while(input_str.size() << 3 % 512 != 448) //1 char is 8 bits, we process bitwise rather than bytewise
+    while( (input_str.size() << 3) % 512 != 448) //1 char is 8 bits, we process bitwise rather than bytewise
     {
         cout<<"crash "<<endl;
         input_str += (char) 0;
@@ -45,7 +45,7 @@ unsigned left_rotate(unsigned orginal_value, int bits, int all_length)
 }
 vector<unsigned> one_block_processing(string input_str_blocksubstr)  //one_block_processing of 512 bits long
 {
-    unsigned int buffer_str[16]={0};
+    vector<unsigned int> buffer_str(80,0);
     for(int i = 0 ; i < 16 ; i++)//each word is 32 bits and there are 16 words in a given block to per processed
     {
         // buffer_str[i] = ((unsigned int)input_str_blocksubstr.substr( i * 4, 4) & 0xFFFFFFFF ); casting problem
@@ -55,13 +55,12 @@ vector<unsigned> one_block_processing(string input_str_blocksubstr)  //one_block
                  ((unsigned)input_str_blocksubstr[i * 4 + 3] & 0xFF); //bit wise concatenation
         cout<<"Buffer i "<<i <<" value "<<std::hex<<buffer_str[i]<<endl;
     }
-    vector<unsigned> final_buffer(80,0);
     for(int i = 16 ; i < 80 ; i++)
     {
-        final_buffer[i] = buffer_str[i - 3] ^ buffer_str[i - 8] ^ buffer_str[i - 14] ^ buffer_str[i - 16];
+        buffer_str[i] = buffer_str[i - 3] ^ buffer_str[i - 8] ^ buffer_str[i - 14] ^ buffer_str[i - 16];
     }
     cout<<"final buffer ok "<<endl;
-    return final_buffer;
+    return buffer_str;
 }
 
 UNT nonlinear_transform(UNT A, UNT B, UNT C, UNT D, UNT E, UNT cur_round) //non linear transform
@@ -98,11 +97,11 @@ string sha1_main(string input_str)
     unsigned E = 0xC3D2E1F0;
     unsigned F = 0, K = 0, temp = 0;
     unsigned H0 = 0, H1 = 0, H2 = 0, H3 = 0, H4 = 0;
-    vector<unsigned> one_block_str;
-
+    cout<<input_str<<endl;
     for(int processed_byte = 0 ; processed_byte != input_str.size() ; processed_byte += 64)
     //process 512 per block operation, 512 = 64bytes = 64chars
     {
+        vector<unsigned> one_block_str;
         one_block_str = one_block_processing(input_str.substr(processed_byte, 64)); //feed a length of 64 bytes (or say 512 bits) long string
         cout<<"Processed byte : "<<processed_byte<<endl;
         for(int i = 0 ; i < 80 ; i++)
@@ -116,7 +115,6 @@ string sha1_main(string input_str)
             B = A;
             A = temp;
         }
-        one_block_str.clear();
         H0 += A;
         H1 += B;
         H2 += C;
@@ -126,13 +124,12 @@ string sha1_main(string input_str)
     }
     cout<<"SHA 1: "<<std::hex<<H0<<H1<<H2<<H3<<H4<<endl;
 }
-int main(int argc, char const *argv[])
+int main()
 {
     string input_str;
     while( cin >> input_str )
     {
         sha1_main(input_str);
-        cout<<"Sha1ends "<<endl;
     }
     return 0;
 }
