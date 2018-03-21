@@ -31,10 +31,11 @@ string preprocessing(string input_str)//add 0 in the end of data
     unsigned long long append_value = original_length & 0xFFFFFFFFFFFFFFFF;
     unsigned tmp_add = 0;
     cout<<"Append value "<<std::hex<<append_value<<endl;
+    bitset<64> bitout(original_length);
+    cout<<"Append value in bits "<<bitout<<endl;
     for(int i = 0 ; i < 8 ; i++)
     {
-        input_str += (char)((append_value & 0xFF000000000000) >> 48);
-        append_value <<= 8;
+        input_str += (char)((append_value & (0XFF << i)) >> (8 - i) );
     }
     cout<<"After padding to 0 mod 512 input_str its length in bits "<<std::dec<<(input_str.size()<<3)<<" and in char "<<input_str.size()<<endl;
     return input_str;
