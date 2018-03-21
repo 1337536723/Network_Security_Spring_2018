@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #define UNT unsigned int
 #define Aunsigned_TURN 100
+
 using namespace std;
 unsigned add_vector[4] =
 {     0x5A827999
