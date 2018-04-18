@@ -26,18 +26,18 @@ string preprocessing(string input_str)//add 0 in the end of data
     {
         input_str += (char) 0;
     }
-    cout<<"After padding to 448 mod 512 input_str its length in bits "<<std::dec<<(input_str.size()<<3)<<" and in char "<<input_str.size()<<endl;
+    // cout<<"After padding to 448 mod 512 input_str its length in bits "<<std::dec<<(input_str.size()<<3)<<" and in char "<<input_str.size()<<endl;
     //append length of message (before pre-processing), in bits, as 64-bit big-endian integer
     unsigned long long append_value = original_length & 0xFFFFFFFFFFFFFFFF;
     unsigned tmp_add = 0;
-    cout<<"Append value "<<std::hex<<append_value<<endl;
+    // cout<<"Append value "<<std::hex<<append_value<<endl;
     bitset<64> bitout(original_length);
-    cout<<"Append value in bits "<<bitout<<endl;
+    // cout<<"Append value in bits "<<bitout<<endl;
     for(int i = 0 ; i < 8 ; i++)
     {
         input_str += (char)((append_value & (0XFF << i)) >> (8 - i) );
     }
-    cout<<"After padding to 0 mod 512 input_str its length in bits "<<std::dec<<(input_str.size()<<3)<<" and in char "<<input_str.size()<<endl;
+    // cout<<"After padding to 0 mod 512 input_str its length in bits "<<std::dec<<(input_str.size()<<3)<<" and in char "<<input_str.size()<<endl;
     return input_str;
 }
 unsigned left_rotate(unsigned orginal_value, int bits, int all_length)
@@ -88,8 +88,8 @@ UNT nonlinear_transform(UNT A, UNT B, UNT C, UNT D, UNT E, UNT cur_round) //non 
 void sha1_main(string input_str)
 {
     input_str = preprocessing(input_str);
-    cout<<"Size after preprocessing in bits"<<std::dec<<(input_str.size()<<3)<<endl;
-    cout<<"Size after preprocessing in bytes"<<std::dec<<input_str.size()<<endl;
+    // cout<<"Size after preprocessing in bits"<<std::dec<<(input_str.size()<<3)<<endl;
+    // cout<<"Size after preprocessing in bytes"<<std::dec<<input_str.size()<<endl;
     unsigned A = 0x67452301;
     unsigned B = 0xEFCDAB89;
     unsigned C = 0x98BADCFE;
@@ -124,7 +124,7 @@ void sha1_main(string input_str)
 int main()
 {
     string input_str;
-    while(cin>>input_str)
+    while(getline(cin,input_str))
     {
         sha1_main(input_str);
     }
