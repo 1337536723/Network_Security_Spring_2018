@@ -1,3 +1,6 @@
+"""
+Code written by myself.
+"""
 import base64
 import binascii
 import os
