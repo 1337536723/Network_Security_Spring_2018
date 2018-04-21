@@ -1,0 +1,36 @@
+
+<html>
+<head>
+    <title>Bob's Blog!</title>
+    <link rel="stylesheet" href="/blog/views/element/element.css">
+    <script src="/blog/views/element/vue.min.js"></script>
+    <script src="/blog/views/element/element.js"></script>
+</head>
+<body>
+    <div class="container" id="app">
+        <el-menu theme="dark" mode="horizontal">
+            <el-menu-item index="1">{{ title }}</el-menu-item>
+        </el-menu>
+        <el-table :data="tableData" style="width: 100%" @row-click="handleClick">
+            <el-table-column prop="id" label="No." width="100"></el-table-column>
+            <el-table-column prop="title" label="標題" width="auto"></el-table-column>
+        </el-table>
+        <el-button type="success" size="large" @click="window.location = '/blog/create.php';">New Post</el-button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    title: 'posts',
+                    tableData: [{"id":"1","title":"Sugar - Maroon 5","content":"I'm hurting, baby, I'm broken down\r\nI need your loving, loving\r\nI need it now\r\nWhen I'm without you\r\nI'm something weak\r\nYou got me begging, begging\r\nI'm on my knees\r\n\r\n[Pre-Chorus:]\r\nI don't wanna be needing your love\r\nI just wanna be deep in your love\r\nAnd it's killing me when you're away, ooh, baby,\r\n'Cause I really don't care where you are\r\nI just wanna be there where you are\r\nAnd I gotta get one little taste\r\n\r\n[Chorus:]\r\nYour sugar\r\nYes, please\r\nWon't you come and put it down on me?\r\nI'm right here, 'cause I need\r\nLittle love, a little sympathy\r\nYeah, you show me good loving\r\nMake it alright\r\nNeed a little sweetness in my life\r\nYour sugar\r\nYes, please\r\nWon't you come and put it down on me?\r\n\r\nMy broken pieces\r\nYou pick them up\r\nDon't leave me hanging, hanging\r\nCome give me some\r\nWhen I'm without ya\r\nI'm so insecure\r\nYou are the one thing, one thing\r\nI'm living for\r\n\r\n[Pre-Chorus:]\r\nI don't wanna be needing your love\r\nI just wanna be deep in your love\r\nAnd it's killing me when you're away, ooh, baby,\r\n'Cause I really don't care where you are\r\nI just wanna be there where you are\r\nAnd I gotta get one little taste\r\n\r\n[Chorus:]\r\nYour sugar\r\nYes, please\r\nWon't you come and put it down on me?\r\nI'm right here,\r\n'Cause I need\r\nLittle love, a little sympathy\r\nYeah, you show me good loving\r\nMake it alright\r\nNeed a little sweetness in my life\r\nYour sugar! (sugar!)\r\nYes, please (yes, please)\r\nWon't you come and put it down on me?\r\n\r\nYeah\r\nI want that red velvet\r\nI want that sugar sweet\r\nDon't let nobody touch it\r\nUnless that somebody's me\r\nI gotta be your man\r\nThere ain't no other way\r\n'Cause girl you're hotter than a southern California day\r\n\r\nI don't wanna play no games\r\nYou don't gotta be afraid\r\nDon't give me all that shy shit\r\nNo make-up on\r\nThat's my\r\n\r\n[Chorus:]\r\nSugar\r\nYes, please (please)\r\nWon't you come and put it down on me (down on me)?\r\nI'm right here (right here), 'cause I need ('cause I need)\r\nLittle love, a little sympathy\r\nSo, baby, (yeah) you show me good loving\r\nMake it alright\r\nNeed a little sweetness in my life\r\nYour sugar! (sugar!)\r\nYes, please (yes, please)\r\nWon't you come and put it down on me?\r\n\r\n[Chorus:]\r\nSugar\r\nYes, please\r\nWon't you come and put it down on me?\r\nI'm right here, 'cause I need\r\nLittle love, a little sympathy\r\nYeah, you show me good loving\r\nMake it alright\r\nNeed a little sweetness in my life\r\n\r\nYour sugar! (sugar!)\r\nYes, please (yes, please)\r\nWon't you come and put it down on me? (down on me, down on me)"},{"id":"2","title":"You're beautiful","content":"My life is brilliant.\r\n\r\nMy life is brilliant.\r\nMy love is pure.\r\nI saw an angel.\r\nOf that I'm sure.\r\nShe smiled at me on the subway.\r\nShe was with another man.\r\nBut I won't lose no sleep on that,\r\n'Cause I've got a plan.\r\n\r\nYou're beautiful. You're beautiful.\r\nYou're beautiful, it's true.\r\nI saw your face in a crowded place,\r\nAnd I don't know what to do,\r\n'Cause I'll never be with you.\r\n\r\nYes, she caught my eye,\r\nAs we walked on by.\r\nShe could see from my face that I was,\r\nFlying high. [ - video\/radio edited version]\r\nFucking high. [ - CD version]\r\nAnd I don't think that I'll see her again,\r\nBut we shared a moment that will last 'til the end.\r\n\r\nYou're beautiful. You're beautiful.\r\nYou're beautiful, it's true.\r\nI saw your face in a crowded place,\r\nAnd I don't know what to do,\r\n'Cause I'll never be with you.\r\n\r\nYou're beautiful. You're beautiful.\r\nYou're beautiful, it's true.\r\nThere must be an angel with a smile on her face,\r\nWhen she thought up that I should be with you.\r\nBut it's time to face the truth,\r\nI will never be with you."},{"id":"3","title":"\u304a\u3060 \u306e\u3076\u306a\u304c","content":"Oda Nobunaga (\u7e54\u7530 \u4fe1\u9577 About this sound Oda Nobunaga (help\u00b7info)?, June 23, 1534 \u2013 June 21, 1582) was a powerful Daimy\u014d of Japan in the late 16th century who attempted to unify Japan during the late Sengoku period. Nobunaga is regarded as one of three unifiers of Japan along with his retainers Toyotomi Hideyoshi and Tokugawa Ieyasu. Nobunaga was widely known as one of the most brutal figures in history, eliminating anyone who stood in his way. He was both a skilled ruler and keen businessman, strategizing at both the micro- and macroeconomic scales. He met his demise when his retainer Akechi Mitsuhide rebelled against him at Honn\u014d-ji."},{"id":"4","title":"\u5c71\u672c\u4e94\u5341\u516d","content":"\u5c71\u672c \u4e94\u5341\u516d\uff08\u3084\u307e\u3082\u3068 \u3044\u305d\u308d\u304f\u30011884\u5e74\uff08\u660e\u6cbb17\u5e74\uff094\u67084\u65e5 - 1943\u5e74\uff08\u662d\u548c18\u5e74\uff094\u670818\u65e5\uff09\u306f\u3001\u65e5\u672c\u306e\u6d77\u8ecd\u8ecd\u4eba\u3002\u7b2c26\u300127\u4ee3\u9023\u5408\u8266\u968a\u53f8\u4ee4\u9577\u5b98\u3002\u6d77\u8ecd\u5175\u5b66\u682132\u671f\u751f\u3002\u6700\u7d42\u968e\u7d1a\u306f\u5143\u5e25\u6d77\u8ecd\u5927\u5c06\u3002\u524d\u7dda\u8996\u5bdf\u306e\u969b\u3001\u30d6\u30fc\u30b2\u30f3\u30d3\u30eb\u5cf6\u4e0a\u7a7a\u3067\u6226\u6b7b\uff08\u6d77\u8ecd\u7532\u4e8b\u4ef6\uff09\u3002\u65e7\u59d3\u306f\u9ad8\u91ce\u3002"},{"id":"5","title":"This is not what you're looking for...","content":"Not this post... Please try another post..."},{"id":"6","title":"Fake stay night saying","content":"People die if they are killed!!\r\n\r\n<img src=\"http:\/\/i1.kym-cdn.com\/photos\/images\/newsfeed\/000\/070\/976\/PEOPLE_DIE_IF_THEY_ARE_KILLED.jpg\" \/>"},{"id":"7","title":"My Lovely Girlfriend!!","content":"BYtspRhR8w6qZjrkAQ1CE2y+TXR9xa+ofUGdbTniiiGPJkE0ZvlDo4rtIS\/DGqzcsaMI5eJC1+PURgPjiNJSvEo4oHH+QPZUn0f4FeeWUtXxC8vi+RsuGbNLcXRvKzt4\/muJ8PL972BuSt5lZc4oOQogbG6yzVUD3QBBK5TNeHuqVOEW570CEpcNq6M8JsWI\/9BadwWyJ2lrHPdOu7C+FA=="}]                };
+            },
+            methods: {
+                handleClick(row, event, column) {
+                    window.location = `/blog/show.php?id=${row.id}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /phpMyAdmin_NS_pRojEct_2017/
+Disallow: /backup.tar.gz
+Disallow: /blog/memorandum.txt
