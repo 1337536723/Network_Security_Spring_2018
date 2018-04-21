@@ -2,14 +2,15 @@ import base64
 import binascii
 import os
 import sys
+os.system('cat '+sys.argv[1]+' | base64 --decode > decoded_memo.bin') #execute linux command in python
 
-with open('decoded_memo.txt', 'r') as fptr:
+with open('decoded_memo.bin', 'r') as fptr:
     # print fptr.read()
     all_data = str(fptr.read())
     # print(all_data)
     print(type(all_data))
 
-    xor_key = sys.argv[1]
+    xor_key = sys.argv[2]
 
     key_len = len(xor_key)
     total_len = len(all_data)
