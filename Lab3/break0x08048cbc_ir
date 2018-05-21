@@ -1,0 +1,28 @@
+breakpoint at edit note of reading the data for note
+eax            0xffffccb8	-13128
+ecx            0xffffffff	-1
+edx            0xf7fa6870	-134584208
+ebx            0xffffcdc0	-12864
+esp            0xffffcca0	0xffffcca0
+ebp            0xffffccc8	0xffffccc8
+esi            0xf7fa5000	-134590464
+edi            0xf7fa5000	-134590464
+eip            0x8048cbc	0x8048cbc <edit_note+84>
+eflags         0x292	[ AF SF IF ]
+cs             0x23	35
+ss             0x2b	43
+ds             0x2b	43
+es             0x2b	43
+fs             0x0	0
+gs             0x63	99
+
+
+疑問在於，
+
+第一個疑問：我如何知道我現在寫入的buffer位置，就是edit_note時候我的s會存在哪邊，以及要用多常的距離來蓋到return address
+感覺作業應該是要我們在edit note函數返回的時候（或是func返回的時候） 把他的return address 中ret所存方的instruction
+改成magic1或是magic2的指令位址
+亦即 080489e0 用x86little edian就是\xe0\x89\x04\x08
+能否請助教給予提示，相當感謝您
+
+第二個疑問：當我送這個string給edit note的時候（如附上的圖檔） 我只能送4個，沒辦法送完整的長度（因為它會吃到cr lf） 請問助教該怎麼辦 謝謝您
