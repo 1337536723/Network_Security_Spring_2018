@@ -164,7 +164,6 @@ void func() {
                 break;
             case 3:
                 if(*(&ret_addr+35) == (unsigned long) magic1 || *(&ret_addr+35) == (unsigned long) magic2 || *(&ret_addr+35) == ret_addr) {
-                    printf("abnormal \n");
                     return;
                 }
                 exit(1);

@@ -373,8 +373,7 @@ Disassembly of section .text:
  80489dd:	90                   	nop
  80489de:	c9                   	leave
  80489df:	c3                   	ret
-@ \xe0\x89\x04\x08
-@ \xe6\x89\x04\x08
+@ \xe0\x89\x04\x08 104740 vs 106150
 080489e0 <magic1>:
  80489e0:	55                   	push   ebp
  80489e1:	89 e5                	mov    ebp,esp

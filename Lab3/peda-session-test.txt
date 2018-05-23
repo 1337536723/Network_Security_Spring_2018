@@ -1,3 +1,2 @@
-break *0x08048f0e
-break *0x08048e1a
+break *0x08048e80
 
