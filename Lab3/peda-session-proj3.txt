@@ -1,3 +1,2 @@
-break *0x8048d6c
 break *0x8048d12
 
